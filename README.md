@@ -1,68 +1,196 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Critical Fail App.com/Crit?status=fail
 
-## Available Scripts
+## frontend
 
-In the project directory, you can run:
+### dependencies
 
-### `npm start`
+- axios
+- react-redux
+- redux
+- react-router-dom (BrowserRouter)
+- react-iconts/fa
+- http-proxy-middleware
+- react-dom
+- react-dnd
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### file-structure
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- src/
+  - components/
+    - Header/
+      - Header.js
+      - Header.css
+    - MessageDisplay/
+      - MessageDisplay.js
+      - MessageDisplay.css
+    - GameBoard/
+      - Squares/
+        - Squares.css
+        - Squares.js
+      - Pegs/
+        - Pegs.js
+        - Pegs.css
+      - GameBoard.js
+      - GameBoard.css
+    - Editor/
+      - Editor.js
+      - Editor.css
+  - App.js
+  - index.js
+  - reset.css
+  - dux/
+    - store.js
+    - gameReducer.js
+    - charReducer.js
 
-### `npm test`
+## Routes
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Home => /
+- Board => /board
+- MonsterMaker => /monstermaker
+- CharacterCreation => /charactercreation
+- catchAll => '\*'
 
-### `npm run build`
+## Redux State
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+const initialState = {
+  user: null,
+  messages: [],
+  players: [],
+  monsters: []
+};
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## backend
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### dependencies
 
-### `npm run eject`
+- express
+- massive
+- dotenv
+- express-session
+- bcrypt
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### folder structure
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- server/
+  - index.js
+  - controller/
+    - messageController
+    - authController
+    - charController
+    - gameController
+    - monsterController
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### endpoint routes
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**auth**
 
-## Learn More
+- login => /auth/login
+- register: => /auth/register
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**message**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- getMessages: => /api/messages
+- postMessages: => /api/messages
+- updateMessages: => /api/messages/:id
+- deleteMessage: => /api/messages/:id
 
-### Code Splitting
+**characters**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+- getCurrentCharacter: => /api/characters/:id
+- getUserCharacters: => /api/characters?user_id=id
+- createNewCharacter: => /api/characters
+- updateCharacter: => /api/characters/:id
+- deleteCharacter: => /api/character/:id
 
-### Analyzing the Bundle Size
+**game**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+- getGame: => /api/game/:id
+- postGame: => /api/game
 
-### Making a Progressive Web App
+**monster**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+- getMonsters: => /api/monster
+- postMonster: => /api/monster
+- updateMonster: => /api/monster/:id
+- deleteMonster: => /api/monster/:id
 
-### Advanced Configuration
+### database
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+- users
 
-### Deployment
+```sql
+create table user (
+    user_id serial primary key,
+    username varchat(40) not null,
+    password text not null,
+    email text not null
+)
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+- messages
 
-### `npm run build` fails to minify
+```sql
+create table message (
+    message_id serial primary key,
+    message text not null,
+    user_id int references user(user_id),
+    time_entered date default now(),
+    FOREIGN KEY(user_id) references user(user_id)
+)
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- characters
+
+```sql
+create table characters (
+    character_id serial primary key,
+    char_name varchar(40) not null,
+    classes text not null,
+    lvl int not null,
+    strength int not null,
+    dexterity int not null,
+    constitution int not null,
+    intelligence int not null,
+    wisdom int not null,
+    charisma int not null,
+    user_id int references user(user_id),
+    FOREIGN KEY(user_id) references user(user_id)
+)
+```
+
+- games
+
+```sql
+create table game (
+    game_id serial primary key,
+    game_name varchar(40) not null,
+    monsterpack_id serial,
+    gm_id int references user(user_id),
+    user_id int references user(user_id)
+)
+```
+
+- monsters
+
+```sql
+create table monster (
+    monster_id serial primary key,
+    monster_name varchar(30) not null,
+    monster_health int not null
+)
+```
+
+-- npcs(reach goal)
+
+-- shops(reach goal)
+
+### dotenv
+
+```text
+SESSION_SECRET=
+SERVER_PORT=
+CONNECTION_STRING=
+```
