@@ -81,7 +81,7 @@ module.exports = {
     const { user_id } = req.body;
     const { id } = req.params;
     const db = req.app.get("db");
-    db.delete_character(id, user_id).then(characters => {
+    db.delete_character(parseInt(id), user_id).then(characters => {
       res.status(200).send(characters);
     });
   }

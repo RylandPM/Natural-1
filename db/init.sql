@@ -1,8 +1,8 @@
-drop table if exists users;
 drop table if exists message;
 drop table if exists characters;
 drop table if exists game;
 drop table if exists monster;
+drop table if exists users;
 
 create table users
 (
@@ -58,14 +58,14 @@ create table game
 (
     game_id serial primary key,
     game_name varchar(40) not null,
-    monsterpack_id serial,
-    user_id int REFERENCES users(user_id)
+    user_id int REFERENCES users(user_id),
+    gm int not null
 );
 
 insert into game
-    (game_name)
+    (game_name, user_id, gm)
 values
-    ('this is just a test');
+    ('this is just a test', 1, 1);
 
 create table monster
 (
@@ -78,3 +78,33 @@ insert into monster
     (monster_name, monster_health)
 values
     ('Jim from Accounting', 999);
+
+insert into users
+    (username, password, email)
+values
+    ('Basically Batman', 'batman', 'notactuallybatman@batman.robin');
+
+insert into message
+    (message, user_id)
+values
+    ('Im Batman', 2);
+
+insert into characters
+    (char_name, classes, lvl, health, strength, dexterity, constitution, intelligence, wisdom, charisma, user_id)
+values
+    ('Batman', 'rogue', 1, 8, 10, 18, 12, 16, 9, 10, 2);
+
+insert into game
+    (game_name, user_id, gm)
+values
+    ('this is just a test', 2, 1);
+
+insert into game
+    (game_name, user_id, gm)
+values
+    ('the edgiest thing since Dark Souls', 2, 2);
+
+insert into monster
+    (monster_name, monster_health)
+values
+    ('baby with a gun', 5);

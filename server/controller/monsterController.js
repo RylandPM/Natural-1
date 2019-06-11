@@ -2,7 +2,7 @@ module.exports = {
   getMonsters: (req, res, next) => {
     const db = req.app.get("db");
     db.get_monsters().then(monsters => {
-      req.status(200).send(monsters);
+      res.status(200).send(monsters);
     });
   },
   postMonster: (req, res, next) => {

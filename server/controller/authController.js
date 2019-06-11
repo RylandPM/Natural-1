@@ -23,7 +23,7 @@ module.exports = {
     });
   },
   register: (req, res, next) => {
-    const { username, email } = req.body;
+    const { username, email, password } = req.body;
     const db = req.app.get("db");
     db.check_if_user_exists(username).then(foundUser => {
       if (foundUser.length) {

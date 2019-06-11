@@ -109,6 +109,7 @@ const initialState = {
 
 - getGame: => /api/game/:id
 - postGame: => /api/game
+- joinGame: => /api/game/:name
 
 **monster**
 
@@ -167,9 +168,8 @@ create table characters (
 create table game (
     game_id serial primary key,
     game_name varchar(40) not null,
-    monsterpack_id serial,
-    gm_id int references user(user_id),
-    user_id int references user(user_id)
+    user_id int references user(user_id),
+    gm int not null
 )
 ```
 
