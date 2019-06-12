@@ -12,6 +12,7 @@
 - http-proxy-middleware
 - react-dom
 - react-dnd
+- react-dnd-html5-backend
 
 ### file-structure
 
