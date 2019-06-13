@@ -21,6 +21,9 @@
     - Header/
       - Header.js
       - Header.css
+    - Dashboard/
+      - Dashboard.js
+      - Dashboard.css
     - MessageDisplay/
       - MessageDisplay.js
       - MessageDisplay.css
@@ -33,9 +36,18 @@
         - Pegs.css
       - GameBoard.js
       - GameBoard.css
-    - Editor/
-      - Editor.js
-      - Editor.css
+    - CharacterEditor/
+      - CharacterEditor.js
+      - CharacterEditor.css
+    - Login/
+      - Register/
+        - Register.js
+        - Register.css
+      - Login.js
+      - Login.css
+    - MonsterMaker/
+      - MonsterMaker.js
+      - MonsterMaker.css
   - App.js
   - index.js
   - reset.css
@@ -43,6 +55,7 @@
     - store.js
     - gameReducer.js
     - charReducer.js
+    - userReducer.js
 
 ## Routes
 
