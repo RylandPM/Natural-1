@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const initialState = {
   messages: []
 };
@@ -5,7 +7,7 @@ const initialState = {
 const SET_MESSAGES = "SET_MESSAGES";
 
 export default function reducer(state = initialState, action) {
-  switch ((action, type)) {
+  switch (action.type) {
     case SET_MESSAGES:
       return {
         ...state,

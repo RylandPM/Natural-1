@@ -14,17 +14,19 @@ const mapStateToProps = reduxState => {
 };
 
 const invokedConnect = connect();
+console.log(invokedConnect);
 
-class Header extends Component {
+export class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       characters: [],
       gamename: ""
     };
+    this.changeHandler = this.changeHandler.bind(this);
   }
   componentDidMount() {
-    this.props.requestUserData;
+    // this.props.requestUserData();
   }
 
   getGame(game) {
@@ -50,22 +52,26 @@ class Header extends Component {
   }
 
   render() {
+    console.log(this.props);
+    const { character, gamename, username } = this.props;
     return (
       <div className="Header">
-        <h1>Natural 1</h1>
+        <h1>Critical Fail</h1>
+        {/* game select and name display */}
         {gamename ? (
           <h2>Current Game: {gamename}</h2>
         ) : (
           <div className="game-select">
-            <input onChange={this.changeHandler("game", e.target.value)} />
+            <input onChange={e => this.changeHandler("game", e.target.value)} />
             <button onClick={this.getGame}>Join a Game</button>
           </div>
         )}
+        {/* username display and character select */}
         {username ? (
-          <h2>User: {username}</h2>
-        ) : (
           <div>
-            {character ? (
+            <h2>User: {username}</h2>
+            {/* character selector and stat display */}
+            {character.charname ? (
               <div>
                 <h2>Character: {character.charname}</h2>
                 <h3>
@@ -88,14 +94,15 @@ class Header extends Component {
                 <button>Select Character</button>
               </div>
             )}
-            <div>
-              <Link>
-                <button>login</button>
-              </Link>
-              <Link>
-                <button>register</button>
-              </Link>
-            </div>
+          </div>
+        ) : (
+          <div>
+            <Link to="/">
+              <button>Login page</button>
+            </Link>
+            <Link to="/register">
+              <button>Registration page</button>
+            </Link>
           </div>
         )}
       </div>
@@ -103,4 +110,8 @@ class Header extends Component {
   }
 }
 
-export default invokedConnect(mapStateToProps)(Header);
+// export default invokedConnect(mapStateToProps)(Header);
+export default connect(
+  mapStateToProps,
+  null
+)(Header);
