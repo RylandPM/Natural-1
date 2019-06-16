@@ -1,8 +1,9 @@
 module.exports = {
   getGame: (req, res, next) => {
     const { game_name } = req.params;
+    const { user_id } = req.body;
     const db = req.app.get("db");
-    db.get_game(game_name).then(game => {
+    db.get_game(game_name, user_id).then(game => {
       res.status(200).send(game);
     });
   },

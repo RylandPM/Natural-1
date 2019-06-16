@@ -7,8 +7,8 @@ const initialState = {
 
 const SET_GAME = "SET_GAME";
 
-export const selectGame = gname => {
-  const game = axios.get(`/api/game/${gname}`);
+export const selectGame = (gname, id) => {
+  const game = axios.get(`/api/game/${gname}`, id);
   return {
     type: SET_GAME,
     payload: game

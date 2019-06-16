@@ -20,9 +20,9 @@ class Login extends Component {
   }
 
   changeHandler(state, inp) {
-    this.setState = {
+    this.setState({
       [state]: inp
-    };
+    });
   }
 
   attemptLogin() {
@@ -30,9 +30,9 @@ class Login extends Component {
       .post("/auth/login", this.state)
       .then(() => {
         requestUserData();
-        this.setState = {
+        this.setState({
           redirect: true
-        };
+        });
       })
       .catch(err => {
         console.log(err);
@@ -41,13 +41,12 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.props);
     if (this.state.redirect === true) {
       return <Redirect to="/dash" />;
     }
     return (
       <div className="login">
-        <h1>Login</h1>
+        <h2>Login</h2>
         <div>
           <h3>Username: </h3>
           <input
@@ -58,12 +57,10 @@ class Login extends Component {
           <h3>Password: </h3>
           <input
             onChange={e => this.changeHandler("password", e.target.value)}
+            type="password"
           />
         </div>
         <button onClick={() => this.attemptLogin(this.state)}>Login</button>
-        <Link to="/register">
-          <button>Register</button>
-        </Link>
       </div>
     );
   }

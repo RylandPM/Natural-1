@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { selectCharacter } from "../../dux/charReducer";
+import { requestUserData } from "../../dux/userReducer";
+import { selectGame } from "../../dux/gameReducer";
 import axios from "axios";
 import { connect } from "react-redux";
 
 const mapStateToProps = reduxState => {
   const { user, game, character } = reduxState;
   return {
+    user: user,
     username: user.username,
     gamename: game.game_name,
     character: character
   };
+};
+
+const mapDispatchToProps = {
+  requestUserData
 };
 
 const invokedConnect = connect();
@@ -24,16 +31,19 @@ export class Header extends Component {
       gamename: ""
     };
     this.changeHandler = this.changeHandler.bind(this);
+    this.joinGame = this.joinGame.bind(this);
   }
   componentDidMount() {
-    // this.props.requestUserData();
+    requestUserData();
   }
 
-  getGame(game) {
-    axios.get(`/api/game/${game}`).then(res => {
-      this.setState = {
-        gamename: res.data.game_name
-      };
+  joinGame(game) {
+    selectGame(game, this.props.user.user_id).then(res => {
+      if (!res.game_name) {
+        axios.post(`/api/game/${game}`, this.props.user.user_id).then(resp => {
+          selectGame(game, this.props.user.user_id);
+        });
+      }
     });
   }
 
@@ -46,9 +56,9 @@ export class Header extends Component {
   }
 
   changeHandler(state, inp) {
-    this.setState = {
+    this.setState({
       [state]: inp
-    };
+    });
   }
 
   render() {
@@ -57,6 +67,7 @@ export class Header extends Component {
     return (
       <div className="Header">
         <h1>Critical Fail</h1>
+        {console.log(gamename)}
         {/* game select and name display */}
         {gamename ? (
           <h2>Current Game: {gamename}</h2>
@@ -113,5 +124,5 @@ export class Header extends Component {
 // export default invokedConnect(mapStateToProps)(Header);
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Header);
