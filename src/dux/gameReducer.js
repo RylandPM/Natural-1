@@ -7,8 +7,8 @@ const initialState = {
 
 const SET_GAME = "SET_GAME";
 
-export const selectGame = (gname, id) => {
-  const game = axios.get(`/api/game/${gname}`, id);
+export const selectGame = gname => {
+  const game = axios.get(`/api/game/${gname}`).then(res => res.data[0]);
   return {
     type: SET_GAME,
     payload: game
@@ -16,10 +16,12 @@ export const selectGame = (gname, id) => {
 };
 
 export default function gameReducer(state = initialState, action) {
+  console.log(action.payload);
   switch (action.type) {
-    case SET_GAME:
-      const { game_name, gm } = action.payload.game;
+    case SET_GAME + "_FULFILLED":
+      const { game_name, gm } = action.payload;
       return {
+        ...state,
         game_name: game_name,
         gm: gm
       };

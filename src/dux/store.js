@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import promiseMiddleware from "redux-promise-middleware";
 import charReducer from "./charReducer";
 import gameReducer from "./gameReducer";
 import messageReducer from "./messageReducer";
@@ -11,4 +12,4 @@ const rootReducer = combineReducers({
   user: userReducer
 });
 
-export default createStore(rootReducer);
+export default createStore(rootReducer, applyMiddleware(promiseMiddleware));

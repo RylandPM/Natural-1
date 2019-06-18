@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { selectCharacter } from "../../dux/charReducer";
 import { requestUserData } from "../../dux/userReducer";
 import { selectGame } from "../../dux/gameReducer";
 import axios from "axios";
@@ -17,7 +16,8 @@ const mapStateToProps = reduxState => {
 };
 
 const mapDispatchToProps = {
-  requestUserData
+  requestUserData,
+  selectGame
 };
 
 const invokedConnect = connect();
@@ -32,19 +32,29 @@ export class Header extends Component {
     };
     this.changeHandler = this.changeHandler.bind(this);
     this.joinGame = this.joinGame.bind(this);
+    this.getGame = this.getGame.bind(this);
+    this.makeGame = this.makeGame.bind(this);
   }
   componentDidMount() {
     requestUserData();
   }
 
-  joinGame(game) {
-    selectGame(game, this.props.user.user_id).then(res => {
-      if (!res.game_name) {
-        axios.post(`/api/game/${game}`, this.props.user.user_id).then(resp => {
-          selectGame(game, this.props.user.user_id);
-        });
-      }
-    });
+  joinGame() {
+    // console.log(this.props.user);
+    axios
+      .post(`/api/game/${this.state.gamename}`, this.props.user)
+      .then(res => {
+        console.log(res.data[0]);
+        this.props.selectGame(res.data[0].game_name);
+      });
+  }
+
+  getGame() {
+    this.props.selectGame(this.state.gamename, this.props.user.user_id);
+  }
+
+  makeGame() {
+    axios.post(`/api/game`, this.props);
   }
 
   getCharacters() {
@@ -73,8 +83,12 @@ export class Header extends Component {
           <h2>Current Game: {gamename}</h2>
         ) : (
           <div className="game-select">
-            <input onChange={e => this.changeHandler("game", e.target.value)} />
-            <button onClick={this.getGame}>Join a Game</button>
+            <input
+              onChange={e => this.changeHandler("gamename", e.target.value)}
+            />
+            <button onClick={this.joinGame}>Join a Game</button>
+            <button onClick={this.getGame}>Connect to Joined Game</button>
+            <button onClick={this.makeGame}>Create a Game</button>
           </div>
         )}
         {/* username display and character select */}
@@ -82,7 +96,7 @@ export class Header extends Component {
           <div>
             <h2>User: {username}</h2>
             {/* character selector and stat display */}
-            {character.charname ? (
+            {character.char_name ? (
               <div>
                 <h2>Character: {character.charname}</h2>
                 <h3>
@@ -97,12 +111,20 @@ export class Header extends Component {
                     <li>int: {character.intelligence}</li>
                     <li>char: {character.charisma}</li>
                   </ul>
+                  <Link to="/charactergen">
+                    <button>Select Character</button>
+                  </Link>
+                  <Link to="/dash">
+                    <button>Lobby</button>
+                  </Link>
                 </div>
               </div>
             ) : (
               <div className="character-select">
                 <h2>No character selected</h2>
-                <button>Select Character</button>
+                <Link to="/charactergen">
+                  <button>Select Character</button>
+                </Link>
               </div>
             )}
           </div>

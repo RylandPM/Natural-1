@@ -55,11 +55,23 @@ module.exports = {
       constitution,
       intelligence,
       wisdom,
-      charisma,
-      character_id,
-      user_id
+      charisma
     } = req.body;
+    const { id } = req.params;
     const db = req.app.get("db");
+    // console.log(
+    //   char_name,
+    //   classes,
+    //   lvl,
+    //   health,
+    //   strength,
+    //   dexterity,
+    //   constitution,
+    //   intelligence,
+    //   wisdom,
+    //   charisma,
+    //   id
+    // );
     db.update_character(
       char_name,
       classes,
@@ -71,8 +83,7 @@ module.exports = {
       intelligence,
       wisdom,
       charisma,
-      character_id,
-      user_id
+      id
     ).then(characters => {
       res.status(200).send(characters);
     });

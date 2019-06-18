@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { requestUserData } from "../../dux/userReducer";
 import axios from "axios";
@@ -8,8 +8,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
+      username: "test",
+      password: "test",
       redirect: false
     };
     this.changeHandler = this.changeHandler.bind(this);
@@ -29,7 +29,8 @@ class Login extends Component {
     axios
       .post("/auth/login", this.state)
       .then(() => {
-        requestUserData();
+        console.log("got response");
+        this.props.requestUserData();
         this.setState({
           redirect: true
         });

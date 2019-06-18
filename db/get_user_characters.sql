@@ -7,6 +7,7 @@ select char_name,
     constitution,
     intelligence,
     wisdom,
-    charisma
+    charisma,
+    character_id
 from characters
 where user_id = $1;

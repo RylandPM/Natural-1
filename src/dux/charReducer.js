@@ -16,7 +16,7 @@ const initialState = {
 const SET_CHARACTER = "SET_CHARACTER";
 
 export const selectCharacter = id => {
-  let char = axios.get(`/api/characters/${id}`).then(res => res.data);
+  let char = axios.get(`/api/characters/${id}`).then(res => res.data[0]);
   return {
     type: SET_CHARACTER,
     payload: char
@@ -24,10 +24,11 @@ export const selectCharacter = id => {
 };
 
 export default function charReducer(state = initialState, action) {
+  // console.log(action);
   switch (action.type) {
-    case SET_CHARACTER:
+    case SET_CHARACTER + "_FULFILLED":
       const {
-        charactername,
+        char_name,
         classes,
         lvl,
         health,
@@ -37,9 +38,9 @@ export default function charReducer(state = initialState, action) {
         intelligence,
         wisdom,
         charisma
-      } = action.payload.character;
+      } = action.payload;
       return {
-        charname: charactername,
+        char_name: char_name,
         classes: classes,
         lvl: lvl,
         health: health,

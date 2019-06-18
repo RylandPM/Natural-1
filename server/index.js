@@ -60,7 +60,7 @@ app.delete("/api/messages/:id", deleteMessage);
 app.get("/api/characters/:id", getCurrentCharacter);
 app.get("/api/characters", getUserCharacters);
 app.post("/api/characters", createNewCharacter);
-app.put("/api/characters", updateCharacter);
+app.put("/api/characters/:id", updateCharacter);
 app.delete("/api/characters/:id", deleteCharacter);
 
 // monster endpoints
