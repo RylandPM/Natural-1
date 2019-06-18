@@ -4,6 +4,7 @@ import { requestUserData } from "../../dux/userReducer";
 import { selectGame } from "../../dux/gameReducer";
 import axios from "axios";
 import { connect } from "react-redux";
+import "./Header.css"
 
 const mapStateToProps = reduxState => {
   const { user, game, character } = reduxState;
@@ -75,24 +76,27 @@ export class Header extends Component {
     console.log(this.props);
     const { character, gamename, username } = this.props;
     return (
-      <div className="Header">
+      <div>
+        <div className="header">
+        <div className="Title_and_games" >
         <h1>Critical Fail</h1>
-        {console.log(gamename)}
         {/* game select and name display */}
         {gamename ? (
           <h2>Current Game: {gamename}</h2>
-        ) : (
-          <div className="game-select">
+          ) : (
+            <div className="game-select">
             <input
               onChange={e => this.changeHandler("gamename", e.target.value)}
-            />
+              />
             <button onClick={this.joinGame}>Join a Game</button>
             <button onClick={this.getGame}>Connect to Joined Game</button>
             <button onClick={this.makeGame}>Create a Game</button>
           </div>
         )}
+        </div>
         {/* username display and character select */}
-        {username ? (
+        <div className={this.props.user.classname}>
+        {username? (
           <div>
             <h2>User: {username}</h2>
             {/* character selector and stat display */}
@@ -104,12 +108,12 @@ export class Header extends Component {
                 </h3>
                 <div className="stats">
                   <ul>
-                    <li>str: {character.strength}</li>
-                    <li>dex: {character.dexterity}</li>
-                    <li>con: {character.constitution}</li>
-                    <li>wis: {character.wisdom}</li>
-                    <li>int: {character.intelligence}</li>
-                    <li>char: {character.charisma}</li>
+                    <li>str: {character.strength} </li>
+                    <li>dex: {character.dexterity} </li>
+                    <li>con: {character.constitution} </li>
+                    <li>wis: {character.wisdom} </li>
+                    <li>int: {character.intelligence} </li>
+                    <li>char: {character.charisma} </li>
                   </ul>
                   <Link to="/charactergen">
                     <button>Select Character</button>
@@ -138,6 +142,8 @@ export class Header extends Component {
             </Link>
           </div>
         )}
+        </div>
+        </div>
       </div>
     );
   }

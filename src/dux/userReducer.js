@@ -3,7 +3,8 @@ import axios from "axios";
 const initialState = {
   username: null,
   email: null,
-  user_id: 0
+  user_id: 0,
+  classname: "usercharacter"
 };
 
 const REQUEST_USER_DATA = "REQUEST_USER_DATA";
@@ -27,7 +28,8 @@ export default function userReducer(state = initialState, action) {
         ...state,
         username: username,
         email: email,
-        user_id: user_id
+        user_id: user_id,
+        classname: "statsndshit"
       };
     default:
       return state;
