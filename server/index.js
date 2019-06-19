@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const massive = require("massive");
 const session = require("express-session");
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
 app.use(express.json());
 
 const { login, register, currentUser } = require("./controller/authController");
@@ -45,6 +47,15 @@ massive(CONNECTION_STRING).then(db => {
   console.log("db is connected");
 });
 
+io.sockets.on("connection", socket => {
+  console.log("user connected");
+  socket.join("Home");
+  socket.on("update", message => {
+    console.log("update hit");
+    io.emit("message");
+  });
+});
+
 // auth endpoints
 app.get("/auth/user", currentUser);
 app.post("/auth/register", register);
@@ -76,4 +87,4 @@ app.post("/api/game/:game_name", joinGame);
 
 const port = SERVER_PORT || 4000;
 
-app.listen(port, () => console.log(`server running on ${port}`));
+server.listen(port, () => console.log(`server running on ${port}`));

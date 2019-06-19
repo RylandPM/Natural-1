@@ -24,9 +24,9 @@ module.exports = {
       constitution,
       intelligence,
       wisdom,
-      charisma,
-      user_id
+      charisma
     } = req.body;
+    const { user_id } = req.query;
     const db = req.app.get("db");
     db.create_character(
       char_name,

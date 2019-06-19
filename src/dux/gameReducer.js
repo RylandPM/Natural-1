@@ -16,7 +16,7 @@ export const selectGame = gname => {
 };
 
 export default function gameReducer(state = initialState, action) {
-  console.log(action.payload);
+  // console.log(action.payload);
   switch (action.type) {
     case SET_GAME + "_FULFILLED":
       const { game_name, gm } = action.payload;

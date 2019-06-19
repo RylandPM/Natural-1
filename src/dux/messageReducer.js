@@ -7,8 +7,9 @@ const initialState = {
 const SET_MESSAGES = "SET_MESSAGES";
 
 export default function reducer(state = initialState, action) {
+  console.log(action);
   switch (action.type) {
-    case SET_MESSAGES:
+    case SET_MESSAGES + "_FULFILLED":
       return {
         ...state,
         messages: action.payload
@@ -18,8 +19,12 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const setMessages = () => {
-  let messages = axios.get("/api/messages").then(res => res.data);
+export const setMessages = game => {
+  console.log({ game_name: game });
+  let messages = axios
+    .get(`/api/messages?game_name=${game}`)
+    .then(res => res.data);
+  console.log(messages);
   return {
     type: SET_MESSAGES,
     payload: messages

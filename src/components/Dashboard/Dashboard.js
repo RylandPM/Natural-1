@@ -5,10 +5,10 @@ import MessageDisplay from "../MessageDisplay/MessageDisplay";
 function Dashboard() {
   return (
     <div className="dashboard">
-      <Gameboard />
+      {/* <Gameboard /> */}
       <MessageDisplay />
     </div>
   );
 }
 
-export default Dashboard();
+export default Dashboard;

@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { requestUserData } from "../../dux/userReducer";
 import { selectGame } from "../../dux/gameReducer";
+import { setMessages } from "../../dux/messageReducer";
 import axios from "axios";
 import { connect } from "react-redux";
-import "./Header.css"
+import "./Header.css";
 
 const mapStateToProps = reduxState => {
   const { user, game, character } = reduxState;
@@ -18,7 +19,8 @@ const mapStateToProps = reduxState => {
 
 const mapDispatchToProps = {
   requestUserData,
-  selectGame
+  selectGame,
+  setMessages
 };
 
 const invokedConnect = connect();
@@ -45,13 +47,14 @@ export class Header extends Component {
     axios
       .post(`/api/game/${this.state.gamename}`, this.props.user)
       .then(res => {
-        console.log(res.data[0]);
         this.props.selectGame(res.data[0].game_name);
       });
   }
 
   getGame() {
-    this.props.selectGame(this.state.gamename, this.props.user.user_id);
+    this.props
+      .selectGame(this.state.gamename, this.props.user.user_id)
+      .then(this.props.setMessages(this.state.gamename));
   }
 
   makeGame() {
@@ -73,76 +76,78 @@ export class Header extends Component {
   }
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const { character, gamename, username } = this.props;
     return (
       <div>
         <div className="header">
-        <div className="Title_and_games" >
-        <h1>Critical Fail</h1>
-        {/* game select and name display */}
-        {gamename ? (
-          <h2>Current Game: {gamename}</h2>
-          ) : (
-            <div className="game-select">
-            <input
-              onChange={e => this.changeHandler("gamename", e.target.value)}
-              />
-            <button onClick={this.joinGame}>Join a Game</button>
-            <button onClick={this.getGame}>Connect to Joined Game</button>
-            <button onClick={this.makeGame}>Create a Game</button>
+          <div className="Title_and_games">
+            <h1>Critical Fail</h1>
+            {/* game select and name display */}
+            {gamename ? (
+              <h2>Current Game: {gamename}</h2>
+            ) : (
+              <div className="game-select">
+                <input
+                  onChange={e => this.changeHandler("gamename", e.target.value)}
+                />
+                <button onClick={this.joinGame}>Join a Game</button>
+                <button onClick={this.getGame}>Connect to Joined Game</button>
+                <button onClick={this.makeGame}>Create a Game</button>
+              </div>
+            )}
           </div>
-        )}
-        </div>
-        {/* username display and character select */}
-        <div className={this.props.user.classname}>
-        {username? (
-          <div>
-            <h2>User: {username}</h2>
-            {/* character selector and stat display */}
-            {character.char_name ? (
+          {/* username display and character select */}
+          <div className={this.props.user.classname}>
+            {username ? (
               <div>
-                <h2>Character: {character.charname}</h2>
-                <h3>
-                  class: {character.classes} lvl: {character.lvl}
-                </h3>
-                <div className="stats">
-                  <ul>
-                    <li>str: {character.strength} </li>
-                    <li>dex: {character.dexterity} </li>
-                    <li>con: {character.constitution} </li>
-                    <li>wis: {character.wisdom} </li>
-                    <li>int: {character.intelligence} </li>
-                    <li>char: {character.charisma} </li>
-                  </ul>
-                  <Link to="/charactergen">
-                    <button>Select Character</button>
-                  </Link>
-                  <Link to="/dash">
-                    <button>Lobby</button>
-                  </Link>
-                </div>
+                <h2>User: {username}</h2>
+                {/* character selector and stat display */}
+                {character.char_name ? (
+                  <div>
+                    <div>
+                      <h2>Character: {character.char_name}</h2>
+                      <h3>
+                        class: {character.classes} lvl: {character.lvl}
+                      </h3>
+                    </div>
+                    <div className="stats">
+                      <ul>
+                        <li>str: {character.strength} </li>
+                        <li>dex: {character.dexterity} </li>
+                        <li>con: {character.constitution} </li>
+                        <li>wis: {character.wisdom} </li>
+                        <li>int: {character.intelligence} </li>
+                        <li>char: {character.charisma} </li>
+                      </ul>
+                      <Link to="/charactergen">
+                        <button>Select Character</button>
+                      </Link>
+                      <Link to="/dash">
+                        <button>Lobby</button>
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="character-select">
+                    <h2>No character selected</h2>
+                    <Link to="/charactergen">
+                      <button>Select Character</button>
+                    </Link>
+                  </div>
+                )}
               </div>
             ) : (
-              <div className="character-select">
-                <h2>No character selected</h2>
-                <Link to="/charactergen">
-                  <button>Select Character</button>
+              <div>
+                <Link to="/">
+                  <button>Login page</button>
+                </Link>
+                <Link to="/register">
+                  <button>Registration page</button>
                 </Link>
               </div>
             )}
           </div>
-        ) : (
-          <div>
-            <Link to="/">
-              <button>Login page</button>
-            </Link>
-            <Link to="/register">
-              <button>Registration page</button>
-            </Link>
-          </div>
-        )}
-        </div>
         </div>
       </div>
     );

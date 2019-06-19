@@ -59,7 +59,10 @@ class CharacterEditor extends Component {
       }
     }
     if (this.state.post === true) {
-      axios.post(`/api/characters`, this.state).then(this.getCharacters());
+      console.log("post hit");
+      axios
+        .post(`/api/characters?user_id=${this.props.user.user_id}`, this.state)
+        .then(() => this.getCharacters());
     } else if (this.state.post === false) {
       this.setState({
         post: true
@@ -70,7 +73,7 @@ class CharacterEditor extends Component {
   deleteCharacter(id) {
     axios
       .delete(`/api/characters/${id}`, this.props.user.user_id)
-      .then(this.getCharacters());
+      .then(() => this.getCharacters());
   }
 
   render() {
