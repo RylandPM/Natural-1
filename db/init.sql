@@ -74,6 +74,21 @@ create table monster
     monster_health int not null
 );
 
+create table peg
+(
+    peg_id serial primary key,
+    peg_name text not null,
+    xpos int not null,
+    ypos int not null,
+    monster bool not null,
+    game_id int references game(game_id)
+);
+
+insert into peg
+    (peg_name, xpos, ypos, monster, game_id)
+values
+    ('PepsiMan', 0, 0, false, 36);
+
 insert into monster
     (monster_name, monster_health)
 values

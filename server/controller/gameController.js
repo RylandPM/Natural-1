@@ -1,7 +1,6 @@
 module.exports = {
   getGame: (req, res, next) => {
     const { game_name } = req.params;
-    const { user_id } = req.body;
     const db = req.app.get("db");
     db.get_game(game_name).then(game => {
       res.status(200).send(game);
@@ -9,7 +8,7 @@ module.exports = {
   },
   postGame: (req, res, next) => {
     const { gamename, gm } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     const db = req.app.get("db");
     console.log("post game hit", gamename, gm);
     db.post_game(gamename, gm)

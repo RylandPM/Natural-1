@@ -28,6 +28,12 @@ const {
   updateMonster,
   deleteMonster
 } = require("./controller/monsterController");
+const {
+  getPegs,
+  postPeg,
+  movePeg,
+  deletePeg
+} = require("./controller/pegController");
 
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
 
@@ -48,11 +54,13 @@ massive(CONNECTION_STRING).then(db => {
 });
 
 io.sockets.on("connection", socket => {
-  console.log("user connected");
   socket.join("Home");
   socket.on("update", message => {
     console.log("update hit");
     io.emit("message");
+  });
+  socket.on("board", change => {
+    io.emit("rebuild");
   });
 });
 
@@ -84,6 +92,12 @@ app.delete("/api/monsters/:id", deleteMonster);
 app.get("/api/game/:game_name", getGame);
 app.post("/api/game", postGame);
 app.post("/api/game/:game_name", joinGame);
+
+// peg endpoints
+app.get("/api/peg/:game_name", getPegs);
+app.post("/api/peg", postPeg);
+app.put("/api/peg", movePeg);
+app.delete("/api/peg/:game_name", deletePeg);
 
 const port = SERVER_PORT || 4000;
 

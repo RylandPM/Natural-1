@@ -1,0 +1,7 @@
+.squares {
+  height: 100%;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+  border-width: thin;
+}

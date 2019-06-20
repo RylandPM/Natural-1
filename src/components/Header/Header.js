@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { requestUserData } from "../../dux/userReducer";
 import { selectGame } from "../../dux/gameReducer";
 import { setMessages } from "../../dux/messageReducer";
+import { setPegs } from "../../dux/pegReducer";
 import axios from "axios";
 import { connect } from "react-redux";
 import "./Header.css";
@@ -20,7 +21,8 @@ const mapStateToProps = reduxState => {
 const mapDispatchToProps = {
   requestUserData,
   selectGame,
-  setMessages
+  setMessages,
+  setPegs
 };
 
 const invokedConnect = connect();
@@ -54,7 +56,10 @@ export class Header extends Component {
   getGame() {
     this.props
       .selectGame(this.state.gamename, this.props.user.user_id)
-      .then(this.props.setMessages(this.state.gamename));
+      .then(
+        this.props.setMessages(this.state.gamename),
+        this.props.setPegs(this.state.gamename)
+      );
   }
 
   makeGame() {

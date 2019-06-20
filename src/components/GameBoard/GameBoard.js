@@ -1,9 +1,89 @@
-import React from "react";
+import React, { Component } from "react";
+import Square from "./Squares/Squares";
+import Peg from "./Pegs/Pegs";
+import io from "socket.io-client";
+import axios from "axios";
+import ItemTypes from "./ItemTypes";
+import { connect } from "react-redux";
+import { setPegs } from "../../dux/pegReducer";
+import { DragDropContextProvider } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+import "./GameBoard.css";
+const socket = io("http://localhost:4000");
 
-function GameBoard() {
+const mapStateToProps = reduxState => {
+  const { pegs, game, user } = reduxState;
+  return {
+    user: user,
+    game: game.game_name,
+    pegs: pegs.pegs
+  };
+};
+
+const mapDispatchToProps = {
+  setPegs
+};
+
+function renderSquare(i, [pieceX, pieceY], name, monster) {
+  const x = i % 10;
+  const y = Math.floor(i / 10);
+  const isPieceHere = pieceX === x && pieceY === y;
+  const piece = isPieceHere ? <Peg /> : null;
+
   return (
-    <div className="gameboard">
-      <span>Gameboard goes here</span>
+    <div
+      key={i}
+      style={{ width: "10%", height: "10%" }}
+      onClick={() => handleSquareClick(x, y)}
+    >
+      <Square>{piece}</Square>
     </div>
   );
 }
+
+function handleSquareClick(toX, toY) {
+  // movePeg(toX, toY);
+}
+
+class GameBoard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      background: ""
+    };
+    socket.on("rebuild", change => {
+      this.props.setPegs(this.props.game);
+    });
+  }
+
+  movePeg(pos) {
+    axios
+      .put("/api/peg", pos)
+      .then(() => socket.emit("board", "also nonsense"));
+  }
+
+  render() {
+    let squares = [];
+    console.log(this.props);
+    if (this.props.pegs[0]) {
+      const { xpos, ypos, peg_name, monster } = this.props.pegs[0];
+      for (let i = 0; i < 100; i++) {
+        squares.push(renderSquare(i, [xpos, ypos], peg_name, monster));
+      }
+    } else {
+      for (let i = 0; i < 100; i++) {
+        squares.push(renderSquare(i, [4, 4]));
+      }
+    }
+    return (
+      <DragDropContextProvider backend={HTML5Backend}>
+        <div className="gameboard">{squares}</div>
+      </DragDropContextProvider>
+    );
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GameBoard);
