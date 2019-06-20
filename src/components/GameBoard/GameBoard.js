@@ -3,7 +3,6 @@ import Square from "./Squares/Squares";
 import Peg from "./Pegs/Pegs";
 import io from "socket.io-client";
 import axios from "axios";
-import ItemTypes from "./ItemTypes";
 import { connect } from "react-redux";
 import { setPegs } from "../../dux/pegReducer";
 import { DragDropContextProvider } from "react-dnd";
@@ -31,18 +30,12 @@ function renderSquare(i, [pieceX, pieceY], name, monster) {
   const piece = isPieceHere ? <Peg /> : null;
 
   return (
-    <div
-      key={i}
-      style={{ width: "10%", height: "10%" }}
-      onClick={() => handleSquareClick(x, y)}
-    >
-      <Square>{piece}</Square>
+    <div key={i} style={{ width: "10%", height: "10%" }}>
+      <Square pegname={name} ismonster={monster} x={x} y={y}>
+        {piece}
+      </Square>
     </div>
   );
-}
-
-function handleSquareClick(toX, toY) {
-  // movePeg(toX, toY);
 }
 
 class GameBoard extends Component {
@@ -56,16 +49,11 @@ class GameBoard extends Component {
     });
   }
 
-  movePeg(pos) {
-    axios
-      .put("/api/peg", pos)
-      .then(() => socket.emit("board", "also nonsense"));
-  }
-
   render() {
     let squares = [];
     console.log(this.props);
     if (this.props.pegs[0]) {
+      console.log("this shouldnt happen");
       const { xpos, ypos, peg_name, monster } = this.props.pegs[0];
       for (let i = 0; i < 100; i++) {
         squares.push(renderSquare(i, [xpos, ypos], peg_name, monster));
