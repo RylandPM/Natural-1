@@ -19,11 +19,12 @@ export default function gameReducer(state = initialState, action) {
   // console.log(action.payload);
   switch (action.type) {
     case SET_GAME + "_FULFILLED":
-      const { game_name, gm } = action.payload;
+      const { game_name, gm, game_id } = action.payload;
       return {
         ...state,
         game_name: game_name,
-        gm: gm
+        gm: gm,
+        game_id: game_id
       };
     default:
       return state;

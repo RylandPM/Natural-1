@@ -6,6 +6,7 @@ const session = require("express-session");
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 app.use(express.json());
+app.use(express.static(`${__dirname}/../build`));
 
 const { login, register, currentUser } = require("./controller/authController");
 const {
@@ -60,6 +61,7 @@ io.sockets.on("connection", socket => {
     io.emit("message");
   });
   socket.on("board", change => {
+    console.log("board hit");
     io.emit("rebuild");
   });
 });
@@ -102,3 +104,8 @@ app.delete("/api/peg/:game_name", deletePeg);
 const port = SERVER_PORT || 4000;
 
 server.listen(port, () => console.log(`server running on ${port}`));
+
+const path = require("path");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build/index.html"));
+});

@@ -14,20 +14,25 @@ const mapStateToProps = reduxState => {
   };
 };
 
-const movePeg = (pegname, x, y) =>
-  axios.put(pegname, x, y).then(() => socket.emit("board", "garbage"));
+const movePeg = (peg_name, xpos, ypos) => {
+  axios
+    .put("/api/peg", { peg_name: peg_name, xpos: xpos, ypos: ypos })
+    .then(() => socket.emit("board", "garbage"));
+};
 
-function Square({ x, y, children, pegname, monster }) {
+function Square({ x, y, children, monster }) {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.PEG,
-    drop: () => movePeg(pegname, x, y),
-    collect: mon => ({
-      isOver: !!mon.isOver(),
-      canDrop: !!mon.canDrop()
+    drop: ({ name }) => movePeg(name, x, y),
+    collect: monitor => ({
+      peg_name: monitor.getDropResult(),
+      isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop()
     })
   });
   return (
     <div
+      ref={drop}
       style={{
         position: "relative",
         width: "100%",

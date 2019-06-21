@@ -7,6 +7,7 @@ const initialState = {
 const SET_PEGS = "SET_PEGS";
 
 export const setPegs = gamename => {
+  console.log("hit pegReducer");
   const peg = axios.get(`/api/peg/${gamename}`).then(res => res.data);
   return {
     type: SET_PEGS,

@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { connect } from "react-redux";
 import { setPegs } from "../../dux/pegReducer";
-import { DragDropContextProvider } from "react-dnd";
+import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import "./GameBoard.css";
 const socket = io("http://localhost:4000");
@@ -23,15 +23,31 @@ const mapDispatchToProps = {
   setPegs
 };
 
-function renderSquare(i, [pieceX, pieceY], name, monster) {
+function renderSquare(i, [xpos, ypos], peg_name, monster) {
   const x = i % 10;
   const y = Math.floor(i / 10);
-  const isPieceHere = pieceX === x && pieceY === y;
-  const piece = isPieceHere ? <Peg /> : null;
+  const isPieceHere = xpos === x && ypos === y;
+  const piece = isPieceHere ? <Peg peg_name={peg_name} /> : null;
+  const placed = (piece !== null).toString();
 
   return (
     <div key={i} style={{ width: "10%", height: "10%" }}>
-      <Square pegname={name} ismonster={monster} x={x} y={y}>
+      <Square monster={monster} x={x} y={y} placed={placed}>
+        {piece}
+      </Square>
+    </div>
+  );
+}
+
+function renderSquareDummy(i, [xpos, ypos], peg_name, monster) {
+  const x = i % 10;
+  const y = Math.floor(i / 10);
+  const isPieceHere = xpos === x && ypos === y;
+  const piece = isPieceHere ? <Peg peg_name={peg_name} /> : null;
+
+  return (
+    <div key={i} style={{ width: "10%", height: "10%" }}>
+      <Square peg_name={peg_name} monster={monster} x={x} y={y}>
         {piece}
       </Square>
     </div>
@@ -51,27 +67,31 @@ class GameBoard extends Component {
 
   render() {
     let squares = [];
+    let counter = 0;
     console.log(this.props);
     if (this.props.pegs[0]) {
-      console.log("this shouldnt happen");
-      const { xpos, ypos, peg_name, monster } = this.props.pegs[0];
       for (let i = 0; i < 100; i++) {
-        squares.push(renderSquare(i, [xpos, ypos], peg_name, monster));
+        // console.log(counter);
+        const { xpos, ypos, peg_name, monster } = this.props.pegs[counter];
+        squares.push(renderSquare(i, [xpos, ypos], peg_name, monster, counter));
+        // console.log(squares[squares.length - 1].props.children.props.placed);
+        if (
+          squares[squares.length - 1].props.children.props.placed === "true" &&
+          counter <= this.props.pegs.length - 2
+        ) {
+          counter++;
+        }
       }
     } else {
       for (let i = 0; i < 100; i++) {
-        squares.push(renderSquare(i, [4, 4]));
+        squares.push(renderSquareDummy(i, [4, 4], "dummy"));
       }
     }
-    return (
-      <DragDropContextProvider backend={HTML5Backend}>
-        <div className="gameboard">{squares}</div>
-      </DragDropContextProvider>
-    );
+    return <div className="gameboard">{squares}</div>;
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(GameBoard);
+)(DragDropContext(HTML5Backend)(GameBoard));

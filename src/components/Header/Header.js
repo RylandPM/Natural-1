@@ -14,6 +14,7 @@ const mapStateToProps = reduxState => {
     user: user,
     username: user.username,
     gamename: game.game_name,
+    game: game,
     character: character
   };
 };
@@ -39,6 +40,7 @@ export class Header extends Component {
     this.joinGame = this.joinGame.bind(this);
     this.getGame = this.getGame.bind(this);
     this.makeGame = this.makeGame.bind(this);
+    this.createPeg = this.createPeg.bind(this);
   }
   componentDidMount() {
     requestUserData();
@@ -49,7 +51,9 @@ export class Header extends Component {
     axios
       .post(`/api/game/${this.state.gamename}`, this.props.user)
       .then(res => {
-        this.props.selectGame(res.data[0].game_name);
+        this.props
+          .selectGame(res.data[0].game_name)
+          .then(this.props.setPegs(this.state.gamename));
       });
   }
 
@@ -57,13 +61,23 @@ export class Header extends Component {
     this.props
       .selectGame(this.state.gamename, this.props.user.user_id)
       .then(
-        this.props.setMessages(this.state.gamename),
-        this.props.setPegs(this.state.gamename)
+        this.props
+          .setMessages(this.state.gamename)
+          .then(this.props.setPegs(this.state.gamename))
       );
   }
 
   makeGame() {
-    axios.post(`/api/game`, this.props);
+    axios
+      .post(`/api/game`, {
+        gamename: this.state.gamename,
+        gm: this.props.user.user_id
+      })
+      .then(
+        this.props
+          .setMessages(this.state.gamename)
+          .then(this.props.setPegs(this.state.gamename))
+      );
   }
 
   getCharacters() {
@@ -80,6 +94,19 @@ export class Header extends Component {
     });
   }
 
+  createPeg() {
+    console.log(this.props.game);
+    axios
+      .post("/api/peg", {
+        peg_name: this.props.character.char_name,
+        xpos: 0,
+        ypos: 0,
+        monster: false,
+        game_id: this.props.game.game_id
+      })
+      .then(this.props.setPegs(this.state.gamename));
+  }
+
   render() {
     // console.log(this.props);
     const { character, gamename, username } = this.props;
@@ -90,7 +117,12 @@ export class Header extends Component {
             <h1>Critical Fail</h1>
             {/* game select and name display */}
             {gamename ? (
-              <h2>Current Game: {gamename}</h2>
+              <div>
+                <h2>Current Game: {gamename}</h2>
+                {character.char_name ? (
+                  <button onClick={this.createPeg}>Make Character Peg</button>
+                ) : null}
+              </div>
             ) : (
               <div className="game-select">
                 <input

@@ -5,9 +5,9 @@ import io from "socket.io-client";
 import "./Pegs.css";
 const socket = io("http://localhost:4000");
 
-function Peg() {
+function Peg({ peg_name }) {
   const [{ isDragging }, drag] = useDrag({
-    item: { type: ItemTypes.PEG },
+    item: { type: ItemTypes.PEG, name: peg_name },
     collect: monitor => ({
       isDragging: !!monitor.isDragging()
     })
@@ -25,7 +25,7 @@ function Peg() {
           cursor: "move"
         }}
       >
-        ♘
+        {peg_name}
       </div>
     </div>
   );
