@@ -5,7 +5,7 @@ import { useDrop } from "react-dnd";
 import ItemTypes from "../ItemTypes";
 import io from "socket.io-client";
 import { connect } from "react-redux";
-const socket = io("http://localhost:4000");
+const socket = io();
 
 const mapStateToProps = reduxState => {
   const { pegs } = reduxState;

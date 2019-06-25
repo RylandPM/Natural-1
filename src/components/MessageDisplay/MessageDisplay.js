@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { connect } from "react-redux";
 import "./MessageDisplay.css";
-const socket = io("http://localhost:4000");
+const socket = io();
 
 const mapStateToProps = reduxState => {
   const { user, messages, game } = reduxState;

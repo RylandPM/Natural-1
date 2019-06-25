@@ -7,7 +7,7 @@ import { setPegs } from "../../dux/pegReducer";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import "./GameBoard.css";
-const socket = io("http://localhost:4000");
+const socket = io();
 
 const mapStateToProps = reduxState => {
   const { pegs, game, user } = reduxState;
