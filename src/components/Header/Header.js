@@ -102,7 +102,8 @@ export class Header extends Component {
         xpos: 0,
         ypos: 0,
         monster: false,
-        game_id: this.props.game.game_id
+        game_id: this.props.game.game_id,
+        game_name: this.props.gamename
       })
       .then(this.props.setPegs(this.state.gamename));
   }
@@ -117,7 +118,7 @@ export class Header extends Component {
             <h1>Critical Fail</h1>
             {/* game select and name display */}
             {gamename ? (
-              <div>
+              <div className="game-display">
                 <h2>Current Game: {gamename}</h2>
                 {character.char_name ? (
                   <button onClick={this.createPeg}>Make Character Peg</button>
@@ -125,51 +126,71 @@ export class Header extends Component {
               </div>
             ) : (
               <div className="game-select">
-                <input
-                  onChange={e => this.changeHandler("gamename", e.target.value)}
-                />
-                <button onClick={this.joinGame}>Join a Game</button>
-                <button onClick={this.getGame}>Connect to Joined Game</button>
-                <button onClick={this.makeGame}>Create a Game</button>
+                <div>
+                  <input
+                    onChange={e =>
+                      this.changeHandler("gamename", e.target.value)
+                    }
+                  />
+                </div>
+                <div>
+                  <button onClick={this.joinGame}>Join a Game</button>
+                  <button onClick={this.getGame}>Connect to Game</button>
+                  <button onClick={this.makeGame}>Create a Game</button>
+                </div>
               </div>
             )}
           </div>
           {/* username display and character select */}
           <div className={this.props.user.classname}>
             {username ? (
-              <div>
-                <h2>User: {username}</h2>
+              <div className="User">
                 {/* character selector and stat display */}
                 {character.char_name ? (
-                  <div>
-                    <div>
-                      <h2>Character: {character.char_name}</h2>
-                      <h3>
-                        class: {character.classes} lvl: {character.lvl}
-                      </h3>
-                    </div>
-                    <div className="stats">
-                      <ul>
-                        <li>str: {character.strength} </li>
-                        <li>dex: {character.dexterity} </li>
-                        <li>con: {character.constitution} </li>
-                        <li>wis: {character.wisdom} </li>
-                        <li>int: {character.intelligence} </li>
-                        <li>char: {character.charisma} </li>
-                      </ul>
+                  <div className="User-Display">
+                    <div className="Player-details">
+                      <h2>User: {username}</h2>
                       <Link to="/charactergen">
-                        <button>Select Character</button>
+                        <div className="charselectbuttons">
+                          <button>Characters</button>
+                        </div>
                       </Link>
                       <Link to="/dash">
-                        <button>Lobby</button>
+                        <div className="charselectbuttons">
+                          <button>Lobby</button>
+                        </div>
                       </Link>
+                    </div>
+                    <div className="stats">
+                      <div className="char-dets">
+                        <h2>Character: {character.char_name}</h2>
+                        <h3>
+                          class: {character.classes} lvl: {character.lvl}
+                        </h3>
+                      </div>
+                      <div className="stat-nums">
+                        <ul className="statlist">
+                          <li>str: {character.strength} </li>
+                          <li>dex: {character.dexterity} </li>
+                          <li>con: {character.constitution} </li>
+                        </ul>
+                        <ul className="statlist">
+                          <li>wis: {character.wisdom} </li>
+                          <li>int: {character.intelligence} </li>
+                          <li>char: {character.charisma} </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 ) : (
                   <div className="character-select">
-                    <h2>No character selected</h2>
+                    <h2>User: {username}</h2>
+                    <h3>Select character and join</h3>
+                    <h3>game to place new pieces</h3>
                     <Link to="/charactergen">
-                      <button>Select Character</button>
+                      <div className="charselectbuttons">
+                        <button>Select Character</button>
+                      </div>
                     </Link>
                   </div>
                 )}
@@ -177,10 +198,14 @@ export class Header extends Component {
             ) : (
               <div>
                 <Link to="/">
-                  <button>Login page</button>
+                  <div className="loginbuttons">
+                    <button>Login page</button>
+                  </div>
                 </Link>
                 <Link to="/register">
-                  <button>Registration page</button>
+                  <div className="loginbuttons">
+                    <button>Registration page</button>
+                  </div>
                 </Link>
               </div>
             )}

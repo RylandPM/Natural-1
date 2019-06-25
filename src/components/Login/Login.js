@@ -8,15 +8,11 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "test",
-      password: "test",
+      username: "",
+      password: "",
       redirect: false
     };
     this.changeHandler = this.changeHandler.bind(this);
-  }
-
-  componentDidMount() {
-    requestUserData();
   }
 
   changeHandler(state, inp) {
@@ -52,6 +48,7 @@ class Login extends Component {
           <h3>Username: </h3>
           <input
             onChange={e => this.changeHandler("username", e.target.value)}
+            value={this.state.username}
           />
         </div>
         <div>
@@ -59,6 +56,7 @@ class Login extends Component {
           <input
             onChange={e => this.changeHandler("password", e.target.value)}
             type="password"
+            value={this.state.password}
           />
         </div>
         <button onClick={() => this.attemptLogin(this.state)}>Login</button>

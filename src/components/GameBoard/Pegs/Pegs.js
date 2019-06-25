@@ -1,9 +1,7 @@
 import React from "react";
 import { useDrag } from "react-dnd";
 import ItemTypes from "../ItemTypes";
-import io from "socket.io-client";
 import "./Pegs.css";
-const socket = io("http://localhost:4000");
 
 function Peg({ peg_name }) {
   const [{ isDragging }, drag] = useDrag({

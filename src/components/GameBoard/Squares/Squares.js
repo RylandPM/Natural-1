@@ -14,20 +14,24 @@ const mapStateToProps = reduxState => {
   };
 };
 
-const movePeg = (peg_name, xpos, ypos) => {
+const movePeg = (peg_name, xpos, ypos, game_name) => {
   axios
-    .put("/api/peg", { peg_name: peg_name, xpos: xpos, ypos: ypos })
+    .put("/api/peg", {
+      peg_name: peg_name,
+      xpos: xpos,
+      ypos: ypos,
+      game_name: game_name
+    })
     .then(() => socket.emit("board", "garbage"));
 };
 
-function Square({ x, y, children, monster }) {
-  const [{ isOver, canDrop }, drop] = useDrop({
+function Square({ x, y, children, monster, game_name }) {
+  const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.PEG,
-    drop: ({ name }) => movePeg(name, x, y),
+    drop: ({ name }) => movePeg(name, x, y, game_name),
     collect: monitor => ({
       peg_name: monitor.getDropResult(),
-      isOver: !!monitor.isOver(),
-      canDrop: !!monitor.canDrop()
+      isOver: !!monitor.isOver()
     })
   });
   return (

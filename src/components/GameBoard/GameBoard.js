@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Square from "./Squares/Squares";
 import Peg from "./Pegs/Pegs";
 import io from "socket.io-client";
-import axios from "axios";
 import { connect } from "react-redux";
 import { setPegs } from "../../dux/pegReducer";
 import { DragDropContext } from "react-dnd";
@@ -23,33 +22,30 @@ const mapDispatchToProps = {
   setPegs
 };
 
-function renderSquare(i, [xpos, ypos], peg_name, monster) {
+function renderSquare(i, [xpos, ypos], peg_name, monster, counter, game) {
   const x = i % 10;
   const y = Math.floor(i / 10);
   const isPieceHere = xpos === x && ypos === y;
   const piece = isPieceHere ? <Peg peg_name={peg_name} /> : null;
   const placed = (piece !== null).toString();
+  // console.log(game);
 
   return (
     <div key={i} style={{ width: "10%", height: "10%" }}>
-      <Square monster={monster} x={x} y={y} placed={placed}>
+      <Square monster={monster} x={x} y={y} placed={placed} game_name={game}>
         {piece}
       </Square>
     </div>
   );
 }
 
-function renderSquareDummy(i, [xpos, ypos], peg_name, monster) {
+function renderSquareDummy(i) {
   const x = i % 10;
   const y = Math.floor(i / 10);
-  const isPieceHere = xpos === x && ypos === y;
-  const piece = isPieceHere ? <Peg peg_name={peg_name} /> : null;
 
   return (
     <div key={i} style={{ width: "10%", height: "10%" }}>
-      <Square peg_name={peg_name} monster={monster} x={x} y={y}>
-        {piece}
-      </Square>
+      <Square />
     </div>
   );
 }
@@ -68,12 +64,15 @@ class GameBoard extends Component {
   render() {
     let squares = [];
     let counter = 0;
-    console.log(this.props);
+    console.log(this.props.game);
     if (this.props.pegs[0]) {
       for (let i = 0; i < 100; i++) {
-        // console.log(counter);
+        const { game } = this.props;
+        // console.log(game);
         const { xpos, ypos, peg_name, monster } = this.props.pegs[counter];
-        squares.push(renderSquare(i, [xpos, ypos], peg_name, monster, counter));
+        squares.push(
+          renderSquare(i, [xpos, ypos], peg_name, monster, counter, game)
+        );
         // console.log(squares[squares.length - 1].props.children.props.placed);
         if (
           squares[squares.length - 1].props.children.props.placed === "true" &&
@@ -84,7 +83,7 @@ class GameBoard extends Component {
       }
     } else {
       for (let i = 0; i < 100; i++) {
-        squares.push(renderSquareDummy(i, [4, 4], "dummy"));
+        squares.push(renderSquareDummy(i));
       }
     }
     return <div className="gameboard">{squares}</div>;

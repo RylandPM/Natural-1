@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { requestUserData } from "../../../dux/userReducer";
 import axios from "axios";
 
 class Register extends Component {
@@ -25,9 +27,12 @@ class Register extends Component {
     axios
       .post("/auth/register", this.state)
       .then(() => {
-        this.setState = {
-          redirect: true
-        };
+        axios.post("/auth/login", this.state).then(() => {
+          this.props.requestUserData();
+          this.setState({
+            redirect: true
+          });
+        });
       })
       .catch(err => {
         console.log(err);
@@ -38,7 +43,7 @@ class Register extends Component {
   render() {
     console.log(this.state);
     if (this.state.redirect === true) {
-      return <Redirect to="/" />;
+      return <Redirect to="/dash" />;
     }
     return (
       <div className="registration">
@@ -74,4 +79,15 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = reduxState => {
+  return reduxState;
+};
+
+const mapDispatchToProps = {
+  requestUserData
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Register);

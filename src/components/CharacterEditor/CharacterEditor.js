@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import { selectCharacter } from "../../dux/charReducer";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -128,24 +128,28 @@ class CharacterEditor extends Component {
               <h2>level: </h2>
               <input
                 onChange={e => this.changeHandler("lvl", e.target.value)}
+                type="number"
               />
             </div>
             <div className="health">
               <h2>Health: </h2>
               <input
                 onChange={e => this.changeHandler("health", e.target.value)}
+                type="number"
               />
             </div>
             <div className="strength">
               <h2>Strength: </h2>
               <input
                 onChange={e => this.changeHandler("strength", e.target.value)}
+                type="number"
               />
             </div>
             <div className="dexterity">
               <h2>Dexterity: </h2>
               <input
                 onChange={e => this.changeHandler("dexterity", e.target.value)}
+                type="number"
               />
             </div>
             <div className="constitution">
@@ -154,6 +158,7 @@ class CharacterEditor extends Component {
                 onChange={e =>
                   this.changeHandler("constitution", e.target.value)
                 }
+                type="number"
               />
             </div>
             <div className="intelligence">
@@ -162,18 +167,21 @@ class CharacterEditor extends Component {
                 onChange={e =>
                   this.changeHandler("intelligence", e.target.value)
                 }
+                type="number"
               />
             </div>
             <div className="wisdom">
               <h2>Wisdom: </h2>
               <input
                 onChange={e => this.changeHandler("wisdom", e.target.value)}
+                type="number"
               />
             </div>
             <div className="charisma">
               <h2>Charisma: </h2>
               <input
                 onChange={e => this.changeHandler("charisma", e.target.value)}
+                type="number"
               />
             </div>
             <button onClick={() => this.postCharacter()}>Set Character</button>

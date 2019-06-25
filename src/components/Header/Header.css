@@ -1,47 +1,236 @@
-
 .header {
-    background: grey;
-    height: 10vh;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .Title_and_games {
-    margin-left: 2%;
-    height: 10%;
-    width: 30%;
-    display: flex;
-    /* flex-direction: column; */
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .usercharacter {
-    margin-right: 2%; 
-    width: 65%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-
-.statsndshit {
-    margin-right: 2%;
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: grey;
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.statsndshit > .stats {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.Title_and_games {
+  margin-left: 2%;
+  margin-right: 2%;
+  height: 100%;
+  width: 30%;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Title_and_games > h1 {
+  font-size: 36px;
+}
+
+.usercharacter {
+  margin-right: 2%;
+  width: 65%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.statsndshit {
+  margin-right: 2%;
+  width: 60%;
+  height: 95%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats > .char-dets {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.char-dets > h2 {
+  font-size: 24px;
+}
+
+.char-dets > h3 {
+  font-size: 22px;
+}
+
+.stats > .stat-nums {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .stats > ul {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.statlist > li {
+  font-size: 24px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.User {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.character-select {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.charselectbuttons > button {
+  background: #97b2e7;
+  outline-style: solid;
+  outline-width: thin;
+  border-color: #97b2e7;
+}
+
+.character-select > h2 {
+  font-size: 26px;
+}
+
+.character-select > h3 {
+  font-size: 20px;
+}
+
+.User-Display {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Player-details {
+  height: 100%;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Player-details > h2 {
+  font-size: 28px;
+}
+
+.game-select > div > button {
+  background: #97b2e7;
+  outline-style: solid;
+  outline-width: thin;
+  border-color: #97b2e7;
+}
+
+.loginbuttons > button {
+  background: #97b2e7;
+  outline-style: solid;
+  outline-width: thin;
+  border-color: #97b2e7;
+}
+
+.game-select > div > input {
+  width: 100%;
+  background: whitesmoke;
+  border-color: whitesmoke;
+}
+
+@media screen and (max-width: 411px), screen and (max-height: 600px) {
+  .statsndshit {
+    width: 30%;
+  }
+
+  .Title_and_games {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .Title_and_games > h1 {
+    font-size: 22px;
+  }
+
+  .game-select > div {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
+  }
+
+  .game-select > div > button {
+    font-size: 10px;
+  }
+
+  .loginbuttons > button {
+    font-size: 10px;
+  }
+
+  .usercharacter {
+    width: 25%;
+  }
+
+  .Title_and_games {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .character-select > h2 {
+    font-size: 12px;
+  }
+
+  .character-select > h3 {
+    font-size: 10px;
+  }
+
+  .charselectbuttons > button {
+    font-size: 8px;
+  }
+
+  .stats {
+    display: none;
+  }
+
+  .Player-details {
+    width: 60%;
+    justify-content: space-evenly;
+  }
+
+  .Player-details > h2 {
+    font-size: 12px;
+  }
+
+  .game-display {
+    font-size: 12px;
+  }
+
+  .game-display > button {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .header {
+    height: 20vh;
+  }
 }
