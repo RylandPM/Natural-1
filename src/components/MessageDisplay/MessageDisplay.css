@@ -1,0 +1,43 @@
+.message-display {
+  height: 85%;
+  background: white;
+  border-style: solid;
+  border-width: medium;
+  border-color: #97b2e7;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message-display > ul {
+  height: 85%;
+  width: 90%;
+}
+
+.message-display > ul > li {
+  padding-top: 5px;
+}
+
+.message-display > div {
+  padding-top: 5%;
+  padding-left: 5%;
+  width: 100%;
+  height: 15%;
+  border-style: solid;
+  border-width: medium;
+  border-color: #97b2e7;
+  background: gray;
+}
+
+.message-display > div > input {
+  width: 90%;
+}
+
+.message-display > div > button {
+  font-weight: bold;
+  background: #97b2e7;
+  outline-style: solid;
+  outline-width: thin;
+  border-color: #97b2e7;
+}

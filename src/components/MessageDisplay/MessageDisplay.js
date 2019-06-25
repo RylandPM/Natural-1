@@ -62,14 +62,16 @@ class MessageDisplay extends Component {
     return (
       <div className="message-display">
         <ul>{mappedMessages}</ul>
-        <span>New Message: </span>
-        <input
-          onChange={e => this.changeHandler(e.target.value)}
-          value={newmessage}
-        />
-        <button onClick={() => this.sendMessage(this.state)}>
-          Send Message
-        </button>
+        <div>
+          <span>New Message: </span>
+          <input
+            onChange={e => this.changeHandler(e.target.value)}
+            value={newmessage}
+          />
+          <button onClick={() => this.sendMessage(this.state)}>
+            Send Message
+          </button>
+        </div>
       </div>
     );
   }

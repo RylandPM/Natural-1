@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { requestUserData } from "../../dux/userReducer";
 import axios from "axios";
+import "./Login.css";
 
 class Login extends Component {
   constructor(props) {
@@ -43,23 +44,25 @@ class Login extends Component {
     }
     return (
       <div className="login">
-        <h2>Login</h2>
         <div>
-          <h3>Username: </h3>
-          <input
-            onChange={e => this.changeHandler("username", e.target.value)}
-            value={this.state.username}
-          />
+          <h2>Login</h2>
+          <div>
+            <h3>Username: </h3>
+            <input
+              onChange={e => this.changeHandler("username", e.target.value)}
+              value={this.state.username}
+            />
+          </div>
+          <div>
+            <h3>Password: </h3>
+            <input
+              onChange={e => this.changeHandler("password", e.target.value)}
+              type="password"
+              value={this.state.password}
+            />
+          </div>
+          <button onClick={() => this.attemptLogin(this.state)}>Login</button>
         </div>
-        <div>
-          <h3>Password: </h3>
-          <input
-            onChange={e => this.changeHandler("password", e.target.value)}
-            type="password"
-            value={this.state.password}
-          />
-        </div>
-        <button onClick={() => this.attemptLogin(this.state)}>Login</button>
       </div>
     );
   }

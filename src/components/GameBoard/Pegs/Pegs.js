@@ -10,7 +10,7 @@ function Peg({ peg_name }) {
       isDragging: !!monitor.isDragging()
     })
   });
-
+  const pegdisp = peg_name.split(" ");
   return (
     <div className="wrapper">
       <div
@@ -18,12 +18,10 @@ function Peg({ peg_name }) {
         ref={drag}
         style={{
           opacity: isDragging ? 0.5 : 1,
-          fontSize: 25,
-          fontWeight: "bold",
           cursor: "move"
         }}
       >
-        {peg_name}
+        {pegdisp[0]}
       </div>
     </div>
   );

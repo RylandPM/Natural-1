@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { selectCharacter } from "../../dux/charReducer";
 import axios from "axios";
 import { connect } from "react-redux";
+import "./CharacterEditor.css";
 
 class CharacterEditor extends Component {
   constructor(props) {
@@ -103,7 +104,7 @@ class CharacterEditor extends Component {
       );
     });
     return (
-      <div className="CharacterEditor">
+      <div className="Character">
         <div>
           <div className="Character_Select">
             <span>

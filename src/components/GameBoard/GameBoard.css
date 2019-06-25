@@ -1,6 +1,12 @@
 .gameboard {
   height: 85%;
   width: 50%;
+  background-image: url("./tempBoard.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  outline-color: white;
+  outline-style: solid;
+  outline-width: medium;
   display: flex;
   flex-wrap: wrap;
 }

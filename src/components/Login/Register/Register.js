@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { requestUserData } from "../../../dux/userReducer";
 import axios from "axios";
+import "./Register.css";
 
 class Register extends Component {
   constructor(props) {
@@ -47,33 +48,35 @@ class Register extends Component {
     }
     return (
       <div className="registration">
-        <h2>Registration</h2>
         <div>
-          <h3>Username: </h3>
-          <input
-            onChange={e => {
-              this.changeHandler("username", e.target.value);
-            }}
-          />
+          <h2>Registration</h2>
+          <div>
+            <h3>Username: </h3>
+            <input
+              onChange={e => {
+                this.changeHandler("username", e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <h3>Email: </h3>
+            <input
+              onChange={e => {
+                this.changeHandler("email", e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <h3>Password: </h3>
+            <input
+              onChange={e => {
+                this.changeHandler("password", e.target.value);
+              }}
+              type="password"
+            />
+          </div>
+          <button onClick={() => this.register()}>Register</button>
         </div>
-        <div>
-          <h3>Email: </h3>
-          <input
-            onChange={e => {
-              this.changeHandler("email", e.target.value);
-            }}
-          />
-        </div>
-        <div>
-          <h3>Password: </h3>
-          <input
-            onChange={e => {
-              this.changeHandler("password", e.target.value);
-            }}
-            type="password"
-          />
-        </div>
-        <button onClick={() => this.register()}>Register</button>
       </div>
     );
   }
